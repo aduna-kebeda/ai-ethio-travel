@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import TravelPlan, AIRecommendation, TravelAssistant, UserPreference
+from .models import TravelPlan, AIRecommendation, TravelAssistant, UserPreference, SentimentAnalysis
 from users.serializers import UserSerializer
-from destinations.serializers import DestinationSerializer
-from reviews.serializers import ReviewSerializer
+from travel.serializers import DestinationSerializer
+from travel.serializers import ReviewSerializer
 
 class TravelPlanSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
@@ -58,4 +58,4 @@ class SentimentAnalysisSerializer(serializers.ModelSerializer):
     class Meta:
         model = SentimentAnalysis
         fields = '__all__'
-        read_only_fields = ('created_at',) 
+        read_only_fields = ('created_at',)

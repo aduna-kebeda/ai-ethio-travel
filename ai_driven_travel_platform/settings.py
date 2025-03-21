@@ -83,11 +83,17 @@ WSGI_APPLICATION = 'ai_driven_travel_platform.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+MONGO_URL = os.getenv('MONGO_URL', 'mongodb://localhost:27017')
+DB_NAME = os.getenv('DB_NAME', 'your_db_name')
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': os.getenv(DB_NAME),
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': os.getenv('MONGO_DB_URL'),
+        
+        }
     }
 }
 
@@ -238,6 +244,6 @@ CACHES = {
 
 ORS_API_KEY = os.getenv('ORS_API_KEY')
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
-
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 # Frontend URL
 FRONTEND_URL = 'http://localhost:3000'  # Replace with your actual frontend URL

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from travel.utils.weather_utils import get_weather_info
 
 User = get_user_model()
 
@@ -17,8 +18,8 @@ class TravelGuide(models.Model):
 
     REGION_CHOICES = [
         ('addis', 'Addis Ababa'),
-        ('amhara', 'Amhara'),
         ('oromia', 'Oromia'),
+        ('amhara', 'Amhara'),
         ('snnpr', 'SNNPR'),
         ('tigray', 'Tigray'),
         ('somali', 'Somali'),
@@ -58,7 +59,7 @@ class TravelGuide(models.Model):
     safety_tips = models.JSONField(default=list)
     emergency_contacts = models.JSONField(default=list)
     health_advisories = models.JSONField(default=list)
-    weather_info = models.JSONField(default=dict)
+    weather_info = models.JSONField(default=dict)  # Implemented weather_info field
     
     # Language Information
     common_phrases = models.JSONField(default=list)
@@ -108,7 +109,7 @@ class TravelGuide(models.Model):
             'safety_tips': self.safety_tips,
             'emergency_contacts': self.emergency_contacts,
             'health_advisories': self.health_advisories,
-            'weather_info': self.weather_info,
+            'weather_info': self.weather_info,  # Connected weather_info
         }
 
     def get_cultural_info(self):
@@ -136,3 +137,10 @@ class TravelGuide(models.Model):
             'pronunciation_guide': self.pronunciation_guide,
             'language_tips': self.language_tips,
         }
+
+    def update_weather_info(self):
+        """Update weather information for the travel guide"""
+        weather_data = get_weather_info(self.region)
+        if weather_data:
+            self.weather_info = weather_data
+            self.save()

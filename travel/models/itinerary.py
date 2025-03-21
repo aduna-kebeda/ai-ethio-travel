@@ -67,7 +67,7 @@ class Itinerary(models.Model):
     class Meta:
         ordering = ['-created_at']
         indexes = [
-            models.Index(fields=['user']),
+            # models.Index(fields=['user']),
             models.Index(fields=['start_date']),
             models.Index(fields=['status']),
         ]

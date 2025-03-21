@@ -13,6 +13,7 @@ from travel.views.travel_history_view import TravelHistoryViewSet
 from travel.views.itinerary_view import itinerary_list, itinerary_detail, share_itinerary
 from travel.views.profile_view import user_profile
 from travel.views.map_view import get_directions, download_map, nearby_attractions
+from ai_services.views import TravelPlanViewSet, AIRecommendationViewSet, TravelAssistantViewSet, UserPreferenceViewSet, generate_recommendations, fetch_weather, ai_chatbot
 from users.views import UserRegistrationView, UserLoginView, UserLogoutView, PasswordResetView, ForgotPasswordView, VerifyResetCodeView, PasswordResetConfirmView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -26,6 +27,10 @@ router.register('reviews', ReviewViewSet, basename='review')
 router.register('notifications', NotificationSettingViewSet, basename='notification')
 router.register('feedback', UserFeedbackViewSet, basename='feedback')
 router.register('travel-history', TravelHistoryViewSet, basename='travel-history')
+router.register('travel-plans', TravelPlanViewSet, basename='travel-plan')
+router.register('ai-recommendations', AIRecommendationViewSet, basename='ai-recommendation')
+router.register('travel-assistants', TravelAssistantViewSet, basename='travel-assistant')
+router.register('user-preferences', UserPreferenceViewSet, basename='user-preference')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,4 +50,7 @@ urlpatterns = [
     path('map/directions/', get_directions, name='get-directions'),
     path('map/download/', download_map, name='download-map'),
     path('map/nearby/', nearby_attractions, name='nearby-attractions'),
+    path('weather/<str:location>/', fetch_weather, name='fetch-weather'),
+    path('generate-recommendations/', generate_recommendations, name='generate-recommendations'),
+    path('ai-chatbot/', ai_chatbot, name='ai-chatbot'),
 ]

@@ -7,9 +7,15 @@ class TravelGuideViewSet(viewsets.ModelViewSet):
     queryset = TravelGuide.objects.all()
     serializer_class = TravelGuideSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['destination']
+    # Remove 'destination' from filterset_fields if it doesn't exist in the model
+    filterset_fields = []
     search_fields = ['title', 'content']
     ordering_fields = ['published_date']
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user) 
+        travel_guide = serializer.save(author=self.request.user)
+        travel_guide.update_weather_info()
+
+    def perform_update(self, serializer):
+        travel_guide = serializer.save()
+        travel_guide.update_weather_info()
