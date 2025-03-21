@@ -95,4 +95,4 @@ class Business(models.Model):
     def get_reviews(self):
         """Get all reviews for this business"""
         from travel.models.review import Review
-        return Review.objects.filter(business=self).order_by('-created_at') 
+        return Review.objects.filter(business=self).order_by('-created_at')

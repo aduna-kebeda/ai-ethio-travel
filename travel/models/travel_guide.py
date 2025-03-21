@@ -135,4 +135,4 @@ class TravelGuide(models.Model):
             'common_phrases': self.common_phrases,
             'pronunciation_guide': self.pronunciation_guide,
             'language_tips': self.language_tips,
-        } 
+        }

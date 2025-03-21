@@ -1,17 +1,19 @@
+from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views.business_view import BusinessViewSet
-from .views.destination_view import DestinationViewSet
-from .views.event_view import EventViewSet
-from .views.news_view import NewsViewSet
-from .views.travel_guide_view import TravelGuideViewSet
-from .views.review_view import ReviewViewSet
-from .views.notification_view import NotificationSettingViewSet
-from .views.user_feedback_view import UserFeedbackViewSet
-from .views.travel_history_view import TravelHistoryViewSet
-from .views.itinerary_view import itinerary_list, itinerary_detail, share_itinerary
-from .views.profile_view import user_profile
-from .views.auth_view import UserRegistrationView, UserLoginView, UserLogoutView, PasswordResetView
+from travel.views.business_view import BusinessViewSet
+from travel.views.destination_view import DestinationViewSet
+from travel.views.event_view import EventViewSet
+from travel.views.news_view import NewsViewSet
+from travel.views.travel_guide_view import TravelGuideViewSet
+from travel.views.review_view import ReviewViewSet
+from travel.views.notification_view import NotificationSettingViewSet
+from travel.views.user_feedback_view import UserFeedbackViewSet
+from travel.views.travel_history_view import TravelHistoryViewSet
+from travel.views.itinerary_view import itinerary_list, itinerary_detail, share_itinerary
+from travel.views.profile_view import user_profile
+from travel.views.map_view import get_directions, download_map, nearby_attractions, map_view
+from users.views import UserRegistrationView, UserLoginView, UserLogoutView, PasswordResetView
 
 router = DefaultRouter()
 router.register('businesses', BusinessViewSet, basename='business')
@@ -25,6 +27,7 @@ router.register('feedback', UserFeedbackViewSet, basename='feedback')
 router.register('travel-history', TravelHistoryViewSet, basename='travel-history')
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', include(router.urls)),
     path('profile/', user_profile, name='user-profile'),
     path('itineraries/', itinerary_list, name='itinerary-list'),
@@ -34,4 +37,8 @@ urlpatterns = [
     path('auth/login/', UserLoginView.as_view(), name='user-login'),
     path('auth/logout/', UserLogoutView.as_view(), name='user-logout'),
     path('auth/password-reset/', PasswordResetView.as_view(), name='password-reset'),
+    path('map/directions/', get_directions, name='get-directions'),
+    path('map/download/', download_map, name='download-map'),
+    path('map/nearby/', nearby_attractions, name='nearby-attractions'),
+    path('map/view/', map_view, name='map-view'),
 ]

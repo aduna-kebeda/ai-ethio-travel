@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map Directions and Nearby Attractions</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Map Directions and Nearby Attractions</h1>
+    <div id="map"></div>
+    <div id="info">
+        <p id="distance"></p>
+        <a id="map-link" href="#">View Map</a>
+        <a id="nearby-map-link" href="#">View Nearby Attractions</a>
+    </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([9.145, 40.489673], 6); // Centered on Ethiopia
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Fetch directions from the backend
+        fetch('{{ directions_url }}')
+            .then(response => response.json())
+            .then(data => {
+                // Display distance and map link
+                document.getElementById('distance').innerText = `Distance: ${data.distance_km} km`;
+                document.getElementById('map-link').href = data.map_link;
+            })
+            .catch(error => console.error('Error fetching directions:', error));
+
+        // Fetch nearby attractions from the backend
+        fetch('{{ nearby_url }}')
+            .then(response => response.json())
+            .then(data => {
+                // Add the nearby attractions to the map
+                data.places.features.forEach(function (feature) {
+                    var coords = feature.geometry.coordinates;
+                    var marker = L.marker([coords[1], coords[0]]).addTo(map);
+                    marker.bindPopup(feature.properties.name);
+                });
+
+                // Display nearby attractions map link
+                document.getElementById('nearby-map-link').href = data.map_link;
+            })
+            .catch(error => console.error('Error fetching nearby attractions:', error));
+    </script>
+</body>
+</html>

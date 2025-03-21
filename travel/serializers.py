@@ -5,14 +5,14 @@ from .models.destination import Destination
 from .models.event import Event
 from .models.news import News
 from .models.travel_guide import TravelGuide
-from .models.review import Review, ReviewImage, ReviewLike  # Update this import
+from .models.review import Review, ReviewImage, ReviewLike
 from .models.itinerary import Itinerary
 from .models.user_interaction import UserInteraction
 from .models.notification_setting import NotificationSetting
 from .models.user_feedback import UserFeedback
 from .models.certification_code import CertificationCode
 from .models.travel_history import TravelHistory
-from users.serializers import UserSerializer  # Import UserSerializer
+from users.serializers import UserSerializer
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:

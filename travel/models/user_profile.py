@@ -61,6 +61,9 @@ class UserProfile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     last_active = models.DateTimeField(null=True, blank=True)
 
+    # Add reset_code field
+    reset_code = models.CharField(max_length=6, blank=True, null=True)
+
     class Meta:
         indexes = [
             models.Index(fields=['user']),
@@ -107,4 +110,4 @@ class UserProfile(models.Model):
             'total_destinations': len(self.visited_destinations),
             'favorite_destinations': len(self.favorite_destinations),
             'bucket_list': len(self.travel_bucket_list),
-        } 
+        }
