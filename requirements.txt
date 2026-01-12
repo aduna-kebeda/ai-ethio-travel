@@ -21,3 +21,4 @@ django-celery-beat==2.5.0
 python-dateutil==2.8.2
 pytz==2024.1 
 dj-rest-auth
+urllib3>=2.6.3 # not directly required, pinned by Snyk to avoid a vulnerability
